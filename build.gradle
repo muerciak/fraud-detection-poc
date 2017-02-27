@@ -1,0 +1,39 @@
+apply plugin: 'java'
+apply plugin: 'groovy'
+apply plugin: 'maven'
+
+group = 'poc.fraud.detection'
+
+sourceCompatibility = 1.8
+version = '1.0'
+
+jar {
+    manifest {
+        attributes 'Implementation-Title': 'Fraud Detection POC',
+                'Implementation-Version': version
+    }
+}
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+
+def localRepoURL = 'file://' + new File(System.getProperty('user.home'), '.m2/repository').absolutePath
+
+install {
+    repositories.mavenInstaller {
+        pom.artifactId = 'fraud-detection-poc'
+        pom.packaging = 'jar'
+    }
+}
+
+dependencies {
+    compile "io.vertx:vertx-core:2.1.3"
+    compile "io.vertx:vertx-platform:2.1.3"
+    compile "com.couchbase.client:java-client:2.0.0"
+    compile "com.google.guava:guava:18.0"
+    compile 'org.codehaus.groovy:groovy-all:2.4.1'
+    testCompile 'org.spockframework:spock-core:1.0-groovy-2.4'
+}
